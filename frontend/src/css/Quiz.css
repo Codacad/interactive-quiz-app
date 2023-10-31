@@ -1,0 +1,3 @@
+div.disabled:first-of-type .connector{
+  opacity: 0;
+}
