@@ -19,7 +19,7 @@ const Quiz = () => {
   useEffect(() => {
     const getQuestions = async () => {
       try {
-        const data = await axios.get("http://localhost:5000/api/quiz/js");
+        const data = await axios.get(import.meta.env.VITE_REACT_QUIZ_API_URL);
         let quizShuffle = data.data
           .sort(() => 0.5 - Math.random())
           .slice(0, 20);

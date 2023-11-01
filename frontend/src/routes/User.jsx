@@ -1,17 +1,15 @@
 import { useContext } from "react";
 import QuizContext from "../contexts/QuizContext";
-import { useNavigate } from "react-router-dom";
 
 const User = () => {
-  const { userQuiz, setUserQuiz } = useContext(QuizContext);
+  const { userQuiz } = useContext(QuizContext);
   const score = userQuiz.filter((quiz) => {
     return quiz.userAnswer === quiz.correctAnswer;
   });
-  const navigate = useNavigate();
   const handleRetakeQuiz = (e) => {
     e.preventDefault();
-    localStorage.removeItem("quiz");    
-    window.location.replace('/')
+    localStorage.removeItem("quiz");
+    window.location.replace("/");
   };
   return (
     <>
