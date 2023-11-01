@@ -7,7 +7,15 @@
     }
   ],
   "routes": [
-    { "src": "/", "des":"/" },
-    { "src": "/user", "dest": "/" }
+    {
+      "src": "/(.*)",
+      "dest": "/"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
   ]
 }
