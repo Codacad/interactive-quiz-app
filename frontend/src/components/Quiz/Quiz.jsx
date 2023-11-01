@@ -17,9 +17,10 @@ const Quiz = () => {
   let [label] = useState(["A", "B", "C", "D"]);
   const [saveQuiz] = useState([]);
   useEffect(() => {
+    // let API_URL = import.meta.env.VITE_REACT_DEV_API_URL || import.meta.env.VITE_REACT_PROD_API_URL 
     const getQuestions = async () => {
       try {
-        const data = await axios.get(import.meta.env.VITE_REACT_QUIZ_API_URL);
+        const data = await axios.get(import.meta.env.VITE_REACT_DEV_API_URL);
         let quizShuffle = data.data
           .sort(() => 0.5 - Math.random())
           .slice(0, 20);
