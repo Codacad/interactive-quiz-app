@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import "../../css/Quiz.css";
 import { motion } from "framer-motion";
 import Img from "../../assets/quiz-pic.jpg";
+import QuizContext from "../../contexts/QuizContext";
+import Spiner from "../Spiner";
 
 const Quiz = () => {
-  let [score, setScore] = useState(0);
+  let { score, setScore} = useContext(QuizContext);
   const [isLoading, setIsLoading] = useState(true);
   const [questions, setQuestions] = useState([]);
   let [currentQuestion, setCurrentQuestion] = useState(0);
@@ -13,7 +15,7 @@ const Quiz = () => {
   let [selectedOption, setSelectedOption] = useState(null);
   let [option, setOption] = useState("");
   let [label] = useState(["A", "B", "C", "D"]);
-  const [saveQuiz, setSaveQuiz] = useState([]);
+  const [saveQuiz] = useState([]);
   useEffect(() => {
     const getQuestions = async () => {
       try {
@@ -29,6 +31,15 @@ const Quiz = () => {
     };
     getQuestions();
   }, [setQuestions]);
+
+  const handleSubmitQuiz = async () => {
+    handleNextQuestion(questions[currentQuestion]);
+    try {
+      localStorage.setItem("quiz", JSON.stringify(saveQuiz));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   let [numberProgressComp] = useState([
     {
@@ -54,7 +65,7 @@ const Quiz = () => {
         e.target.classList.add("shadow-option");
       }
     }
-    setOption(option.option);    
+    setOption(option.option);
   };
   const handleNextQuestion = (question) => {
     setCurrentQuestion(currentQuestion + 1);
@@ -74,19 +85,26 @@ const Quiz = () => {
     if (option === question.correctAnswer) {
       setScore(score + 1);
     }
-    if(isSelected) {
+    if (isSelected) {
       setIsSelected(false);
     }
 
-    if(!option){
-      saveQuiz.push({ ...question, userAnswer: false, selected:false });
+    if (!option) {
+      saveQuiz.push({
+        ...question,
+        userAnswer: false,
+        selected: false,
+        attempt: false,
+      });
     } else {
-      saveQuiz.push({ ...question, userAnswer: option, seleted:true });
-    }    
-    setOption("")   
-
-   console.log(saveQuiz)
-
+      saveQuiz.push({
+        ...question,
+        userAnswer: option,
+        selected: true,
+        attempt: true,
+      });
+    }
+    setOption("");
   };
 
   return (
@@ -95,13 +113,13 @@ const Quiz = () => {
         <div className="">
           <img src={Img} alt="" className="h-[100%] opacity-[.5]" />
         </div>
-        <div className="quiz-content h-full col-span-2">
+        <div className="relative quiz-content h-full col-span-2">
           {isLoading ? (
-            <div>Loading...</div>
+            <Spiner />
           ) : (
             <div className="py-6">
               {currentQuestion > 19 ? (
-                <div>Good Job</div>
+                window.location.replace("/user")
               ) : (
                 <div className="quiz h-full px-16 flex gap-4 flex-col justify-center">
                   <div className="score flex justify-center mb-8">
@@ -140,7 +158,7 @@ const Quiz = () => {
                   </div>
                   <div className="question">
                     <h1 className="text-3xl text-gray-500 font-bold leading-[1.6] mb-4">
-                     <span>Q. </span> {questions[currentQuestion].question}
+                      <span>Q. </span> {questions[currentQuestion].question}
                     </h1>
                   </div>
                   <div className="options flex flex-col gap-4">
@@ -181,14 +199,23 @@ const Quiz = () => {
                       <div className="progress-bar"></div>
                     </div>
                     <div className="buttons flex justify-end gap-2">
-                      <button
-                        onClick={() =>
-                          handleNextQuestion(questions[currentQuestion])
-                        }
-                        className="bg-green-500 shadow-lg uppercase w-24 text-white rounded-sm px-4 py-2"
-                      >
-                        Next
-                      </button>
+                      {currentQuestion >= 19 ? (
+                        <button
+                          onClick={handleSubmitQuiz}
+                          className="bg-red-500 shadow-lg uppercase w-40 text-white rounded-sm px-4 py-2"
+                        >
+                          Submit Test
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() =>
+                            handleNextQuestion(questions[currentQuestion])
+                          }
+                          className="bg-green-500 shadow-lg uppercase w-24 text-white rounded-sm px-4 py-2"
+                        >
+                          Next
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
