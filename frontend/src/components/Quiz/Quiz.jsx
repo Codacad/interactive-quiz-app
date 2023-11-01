@@ -7,7 +7,7 @@ import QuizContext from "../../contexts/QuizContext";
 import Spiner from "../Spiner";
 
 const Quiz = () => {
-  let { score, setScore } = useContext(QuizContext);
+  let { score, setScore} = useContext(QuizContext);
   const [isLoading, setIsLoading] = useState(true);
   const [questions, setQuestions] = useState([]);
   let [currentQuestion, setCurrentQuestion] = useState(0);
@@ -15,19 +15,11 @@ const Quiz = () => {
   let [selectedOption, setSelectedOption] = useState(null);
   let [option, setOption] = useState("");
   let [label] = useState(["A", "B", "C", "D"]);
-  const {CancelToken} = useState(axios.CancelToken);
-  let [cancel, setCancel] = useState();
   const [saveQuiz] = useState([]);
   useEffect(() => {
     const getQuestions = async () => {
       try {
-        const data = await axios.get(import.meta.env.VITE_REACT_API_URL, {
-          cancelToken: new CancelToken(function executor(c) {
-            // An executor function receives a cancel function as a parameter
-            setCancel(c)
-          }),
-        });
-        cancel();
+        const data = await axios.get(import.meta.env.VITE_REACT_API_URL);
         let quizShuffle = data.data
           .sort(() => 0.5 - Math.random())
           .slice(0, 20);
