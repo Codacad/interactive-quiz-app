@@ -7,7 +7,7 @@ import QuizContext from "../../contexts/QuizContext";
 import Spiner from "../Spiner";
 
 const Quiz = () => {
-  let { score, setScore} = useContext(QuizContext);
+  let { score, setScore } = useContext(QuizContext);
   const [isLoading, setIsLoading] = useState(true);
   const [questions, setQuestions] = useState([]);
   let [currentQuestion, setCurrentQuestion] = useState(0);
@@ -15,6 +15,7 @@ const Quiz = () => {
   let [selectedOption, setSelectedOption] = useState(null);
   let [option, setOption] = useState("");
   let [label] = useState(["A", "B", "C", "D"]);
+  let [progressBarWidth, setProgressBarWidth] = useState(0)
   const [saveQuiz] = useState([]);
   useEffect(() => {
     const getQuestions = async () => {
@@ -35,7 +36,7 @@ const Quiz = () => {
   const handleSubmitQuiz = async () => {
     handleNextQuestion(questions[currentQuestion]);
     try {
-      localStorage.setItem("quiz", JSON.stringify(saveQuiz));
+      localStorage.setItem("quiz", JSON.stringify(saveQuiz));     
     } catch (error) {
       console.log(error);
     }
@@ -69,6 +70,7 @@ const Quiz = () => {
   };
   const handleNextQuestion = (question) => {
     setCurrentQuestion(currentQuestion + 1);
+    setProgressBarWidth(progressBarWidth + 5)
     numberProgressComp.push({
       component: (
         <>
@@ -109,11 +111,11 @@ const Quiz = () => {
 
   return (
     <>
-      <div className="quiz-wrapper w-full min-h-[100vh] grid grid-cols-3">
-        <div className="">
+      <div className="quiz-wrapper w-full min-h-[100vh] md:grid grid-cols-3">
+        <div className="md:block hidden">
           <img src={Img} alt="" className="h-[100%] opacity-[.5]" />
         </div>
-        <div className="relative quiz-content h-full col-span-2">
+        <div className="md:relative quiz-content h-full col-span-2">
           {isLoading ? (
             <Spiner />
           ) : (
@@ -121,7 +123,7 @@ const Quiz = () => {
               {currentQuestion > 19 ? (
                 window.location.replace("/user")
               ) : (
-                <div className="quiz h-full px-16 flex gap-4 flex-col justify-center">
+                <div className="quiz h-full md:px-16 px-8 flex gap-4 flex-col justify-center">
                   <div className="score flex justify-center mb-8">
                     <button className="bg-green-100 border-2 border-green-700 py-2 px-8 flex items-center gap-4 text-2xl rounded-lg text-green-800">
                       <span>Score: </span>
@@ -130,7 +132,13 @@ const Quiz = () => {
                       <span>{questions.length}</span>
                     </button>
                   </div>
-                  <div className="relative question-number flex mb-8">
+                  <div className="max-md:flex hidden">
+                    <div className="bar shadow-inner w-full bg-gray-100 flex border rounded-3xl">
+                      <div className={`progress w-[${progressBarWidth}%] shadow-sm rounded-3xl bg-green-500`}></div>
+                    </div>                    
+                    <span className="text-gray-500 ml-1">{progressBarWidth}%</span>
+                  </div>
+                  <div className="relative question-number md:flex hidden mb-8">
                     {questions.map((question, index) => {
                       return (
                         <div
@@ -157,8 +165,9 @@ const Quiz = () => {
                     </div>
                   </div>
                   <div className="question">
-                    <h1 className="text-3xl text-gray-500 font-bold leading-[1.6] mb-4">
-                      <span>Q. </span> {questions[currentQuestion].question}
+                    <h1 className="md:text-3xl flex text-gray-500 font-bold leading-[1.6] mb-4">
+                      <span className="">Q. </span>{" "}
+                      {questions[currentQuestion].question}
                     </h1>
                   </div>
                   <div className="options flex flex-col gap-4">

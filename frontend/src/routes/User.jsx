@@ -15,9 +15,14 @@ const User = () => {
     <>
       <div className="">
         <div className="">
-          <div className="header p-4 shadow-lg px-16 flex justify-between text-white bg-green-500">
-            <h1 className="text-2xl font-bold">
-              Good Job: You score is {score.length} of {userQuiz.length}
+          <div className="header p-4 shadow-lg sm:px-16 px-4 flex justify-between items-center text-white bg-green-500">
+            <h1 className="sm:text-2xl text-lg">
+              <span className="font-bold">
+                {score.length >= 10 ? "Good Job:" : "Opps! try again:"}
+              </span>{" "}
+              <span className="text-gray-200">
+                You score is {score.length} of {userQuiz.length}
+              </span>
             </h1>
             <button
               onClick={handleRetakeQuiz}
@@ -30,10 +35,11 @@ const User = () => {
             {userQuiz &&
               userQuiz.map((question, index) => {
                 return (
-                  <div className="w-[75%] m-auto" key={index}>
+                  <div className="sm:w-[75%] px-4 m-auto" key={index}>
                     <div>
-                      <h1 className="text-2xl font-bold mb-4 text-gray-600">
-                        {index + 1}. {question.question}
+                      <h1 className="sm:text-2xl text-lg font-bold mb-4 text-gray-600 flex">
+                        <span className="mr-2">{index + 1}.</span>{" "}
+                        <span>{question.question}</span>
                       </h1>
                     </div>
                     <div className="options">
@@ -48,6 +54,12 @@ const User = () => {
                             </div>
                             <div
                               className={`option w-full relative z-10 py-2 border-2 border-gray-100 rounded-md                              
+                              ${
+                                question.attempt === false &&
+                                question.correctAnswer === option
+                                  ? "bg-yellow-300"
+                                  : ""
+                              }
                               ${
                                 question.correctAnswer == option
                                   ? "bg-green-200"
