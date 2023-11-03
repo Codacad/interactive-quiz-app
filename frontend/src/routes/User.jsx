@@ -27,7 +27,7 @@ const User = () => {
           </div>
           <button
               onClick={handleRetakeQuiz}
-              className="fixed bottom-6 right-6 shadow-xl w-24 h-24 text-gray-100 px-4 py-2 bg-red-500 rounded-full flex justify-center items-center"
+              className="fixed bottom-6 z-20 right-6 shadow-xl w-24 h-24 text-gray-100 px-4 py-2 bg-red-500 rounded-full flex justify-center items-center"
             >
               Retake Quiz
             </button>
