@@ -32,9 +32,9 @@ const User = () => {
             Retake Quiz
           </button>
           <div className="indicators flex justify-center items-center gap-2 mt-8">
-            <div className="flex justify-center items-center"><span className="w-4 h-4 flex rounded-full bg-green-500 mr-2"></span> Correct</div>
-            <div className="flex justify-center items-center"><span className="w-4 h-4 block rounded-full bg-red-500 mr-2"></span> Incorrect</div>
-            <div className="flex justify-center items-center"><span className="w-4 h-4 block rounded-full bg-yellow-500 mr-2"></span> Unattempted</div>
+            <div className="flex justify-center items-center"><span className="w-4 h-4 flex rounded-full bg-green-200 mr-2"></span> Correct</div>
+            <div className="flex justify-center items-center"><span className="w-4 h-4 block rounded-full bg-red-200 mr-2"></span> Incorrect</div>
+            <div className="flex justify-center items-center"><span className="w-4 h-4 block rounded-full bg-yellow-200 mr-2"></span> Unattempted</div>
           </div>
           <div className="py-8 flex flex-col gap-4">
             {userQuiz &&
@@ -62,7 +62,7 @@ const User = () => {
                               ${
                                 question.attempt === false &&
                                 question.correctAnswer === option
-                                  ? "bg-yellow-300"
+                                  ? "bg-yellow-200"
                                   : ""
                               }
                               ${
