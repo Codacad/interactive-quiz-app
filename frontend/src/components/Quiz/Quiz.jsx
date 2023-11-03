@@ -15,12 +15,12 @@ const Quiz = () => {
   let [selectedOption, setSelectedOption] = useState(null);
   let [option, setOption] = useState("");
   let [label] = useState(["A", "B", "C", "D"]);
-  let [progressBarWidth, setProgressBarWidth] = useState(0)
+  let [progressBarWidth, setProgressBarWidth] = useState(0);
   const [saveQuiz] = useState([]);
   useEffect(() => {
     const getQuestions = async () => {
       try {
-        const data = await axios.get(import.meta.env.VITE_REACT_API_URL);
+        const data = await axios.get(import.meta.env.VITE_REACT_LOCAL_API_URL || import.meta.env.VITE_REACT_REMOTE_API_URL );
         let quizShuffle = data.data
           .sort(() => 0.5 - Math.random())
           .slice(0, 20);
@@ -36,7 +36,7 @@ const Quiz = () => {
   const handleSubmitQuiz = async () => {
     handleNextQuestion(questions[currentQuestion]);
     try {
-      localStorage.setItem("quiz", JSON.stringify(saveQuiz));     
+      localStorage.setItem("quiz", JSON.stringify(saveQuiz));
     } catch (error) {
       console.log(error);
     }
@@ -70,7 +70,7 @@ const Quiz = () => {
   };
   const handleNextQuestion = (question) => {
     setCurrentQuestion(currentQuestion + 1);
-    setProgressBarWidth(progressBarWidth + 5)
+    setProgressBarWidth(progressBarWidth + 5);
     numberProgressComp.push({
       component: (
         <>
@@ -134,9 +134,13 @@ const Quiz = () => {
                   </div>
                   <div className="max-md:flex hidden">
                     <div className="bar shadow-inner w-full bg-gray-100 flex border rounded-3xl">
-                      <div className={`progress w-[${progressBarWidth}%] shadow-sm rounded-3xl bg-green-500`}></div>
-                    </div>                    
-                    <span className="text-gray-500 ml-1">{progressBarWidth}%</span>
+                      <div
+                        className={`progress w-[${progressBarWidth}%] shadow-sm rounded-3xl bg-green-500`}
+                      ></div>
+                    </div>
+                    <span className="text-gray-500 ml-1">
+                      {progressBarWidth}%
+                    </span>
                   </div>
                   <div className="relative question-number md:flex hidden mb-8">
                     {questions.map((question, index) => {
