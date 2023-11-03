@@ -23,14 +23,19 @@ const User = () => {
               <span className="text-gray-200">
                 You score is {score.length} of {userQuiz.length}
               </span>
-            </h1>            
+            </h1>
           </div>
           <button
-              onClick={handleRetakeQuiz}
-              className="fixed bottom-6 z-20 right-6 shadow-xl w-24 h-24 text-gray-100 px-4 py-2 bg-red-500 rounded-full flex justify-center items-center"
-            >
-              Retake Quiz
-            </button>
+            onClick={handleRetakeQuiz}
+            className="fixed bottom-6 z-20 right-6 shadow-xl w-24 h-24 text-gray-100 px-4 py-2 bg-red-500 rounded-full flex justify-center items-center"
+          >
+            Retake Quiz
+          </button>
+          <div className="indicators flex justify-center items-center gap-2 mt-8">
+            <div className="flex justify-center items-center"><span className="w-4 h-4 flex rounded-full bg-green-500 mr-2"></span> Correct</div>
+            <div className="flex justify-center items-center"><span className="w-4 h-4 block rounded-full bg-red-500 mr-2"></span> Incorrect</div>
+            <div className="flex justify-center items-center"><span className="w-4 h-4 block rounded-full bg-yellow-500 mr-2"></span> Unattempted</div>
+          </div>
           <div className="py-8 flex flex-col gap-4">
             {userQuiz &&
               userQuiz.map((question, index) => {
