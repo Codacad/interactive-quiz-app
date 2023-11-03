@@ -17,13 +17,13 @@ const Quiz = () => {
   let [label] = useState(["A", "B", "C", "D"]);
   let [progressBarWidth, setProgressBarWidth] = useState(0);
   const [saveQuiz] = useState([]);
+  let API_URL =
+    import.meta.env.VITE_REACT_REMOTE_API_URL ||
+    import.meta.env.VITE_REACT_API_URL;
   useEffect(() => {
     const getQuestions = async () => {
       try {
-        const data = await axios.get(
-          import.meta.env.VITE_REACT_REMOTE_API_URL ||
-            import.meta.env.VITE_REACT_API_URL
-        );
+        const data = await axios.get(API_URL);
         let quizShuffle = data.data
           .sort(() => 0.5 - Math.random())
           .slice(0, 20);
