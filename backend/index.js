@@ -7,9 +7,9 @@ const quiz = require('./routes/quiz')
 const PORT = process.env.PORT || 5000
 const app = express()
 app.use(cors({
-  "origin": ["https://interactive-quiz-app-o2m7.vercel.app", "http://localhost:5000"],
+  "origin": ["https://interactive-quiz-app-rho.vercel.app/", "http://localhost:5000"],
   "methods": ["POST", "GET"],
-  "credentials": false
+  "credentials": true
 }))
 app.use(express.json())
 dbConnection()
