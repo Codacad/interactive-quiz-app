@@ -14,8 +14,8 @@ const User = () => {
   return (
     <>
       <div className="">
-        <div className="">
-          <div className="header p-4 shadow-lg sm:px-16 px-4 flex justify-between items-center text-white bg-green-500">
+        <div className="relative">
+          <div className="header p-2 shadow-lg sm:px-16 px-4 flex justify-between items-center text-white bg-green-500">
             <h1 className="sm:text-2xl text-lg">
               <span className="font-bold">
                 {score.length >= 10 ? "Good Job:" : "Opps! try again:"}
@@ -23,14 +23,14 @@ const User = () => {
               <span className="text-gray-200">
                 You score is {score.length} of {userQuiz.length}
               </span>
-            </h1>
-            <button
+            </h1>            
+          </div>
+          <button
               onClick={handleRetakeQuiz}
-              className="text-gray-500 px-4 py-2 bg-gray-100 rounded-md flex justify-center items-center"
+              className="fixed bottom-6 right-6 shadow-xl w-24 h-24 text-gray-100 px-4 py-2 bg-red-500 rounded-full flex justify-center items-center"
             >
               Retake Quiz
             </button>
-          </div>
           <div className="py-8 flex flex-col gap-4">
             {userQuiz &&
               userQuiz.map((question, index) => {
